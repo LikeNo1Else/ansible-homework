@@ -1,0 +1,8 @@
+aml_packages:
+  - httpd
+  - php
+
+ubuntu_packages:
+  - apache2
+  - php
+  
