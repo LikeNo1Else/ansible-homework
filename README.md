@@ -1,2 +1,2 @@
-# ansible-homework
+# Ansible homework folder
 Folder for homeworks
