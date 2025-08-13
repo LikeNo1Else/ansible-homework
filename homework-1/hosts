@@ -1,5 +1,5 @@
-[aml_instance]
+[aml_instances]
 wordpress-ec2 ansible_host=54.87.14.133 ansible_user=ec2-user
 
-[ubuntu_instance]
-wordpress-ubuntu ansible_host=54.87.14.133
+[ubuntu_instances]
+wordpress-ubuntu ansible_host=54.144.207.134
