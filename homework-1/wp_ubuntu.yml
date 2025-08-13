@@ -1,10 +1,9 @@
 # Install wordpress on Ubuntu based machines
 - hosts: ubuntu_instances
-  vars:
-    ubuntu_instance: true
+  become: yes
   vars_files:
     - packages.yml
-  become: yes
+ 
   tasks: 
   - name: Install apache server and update ubuntu
     ansible.builtin.apt:
@@ -72,7 +71,7 @@
         state: absent
     when: does_wordpress.stat.exists == false
 
-  - name: Restart Apache service
+  - name: Restart Apache server
     ansible.builtin.service:
       name: apache2
       state: restarted

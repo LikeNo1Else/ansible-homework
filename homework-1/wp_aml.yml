@@ -1,10 +1,9 @@
 # Install wordpress on Amazon Linux based machines
 - hosts: aml_instances
-  vars:
-    ubuntu_instance: true
+  become: yes
   vars_files:
     - packages.yml
-  become: yes
+  
   tasks: 
   - name: Install apache server 
     ansible.builtin.dnf:
