@@ -1,5 +1,14 @@
-packages:
-  wordpress_packages:
+wordpress:
+  aml_packages:
+    - php 
+    - php-mysqlnd 
+    - php-fpm 
+    - php-mysqli 
+    - mariadb105-server 
+    - php-json 
+    - php-zip
+
+  ubuntu_packages:
     - ghostscript
     - libapache2-mod-php
     - mysql-server
@@ -13,4 +22,3 @@ packages:
     - php-mysql
     - php-xml
     - php-zip
-  

@@ -1,27 +1,27 @@
-#  ansible-playbook wordpress.yml
-- hosts: ubuntu_instances
+# Install wordpress on Amazon Linux based machines
+- hosts: aml_instances
   vars:
     ubuntu_instance: true
   vars_files:
     - packages.yml
   become: yes
   tasks: 
-  - name: Install apache server and update ubuntu
-    ansible.builtin.apt:
-      name: apache2
+  - name: Install apache server 
+    ansible.builtin.dnf:
+      name: httpd
       state: latest
-      update_cache: yes
 
   - name: Start apache service, if not started and make it permanent
     ansible.builtin.service:
-      name: apache2
+      name: httpd
       state: started
       enabled: yes 
 
   - name: Install other packages needed for wordpress
-    ansible.builtin.apt:
-      name: "{{ packages.wordpress_packages }}"
+    ansible.builtin.dnf:
+      name: "{{ wordpress.aml_packages }}"
       state: latest
+    ignore_errors: yes
 
   - name: Download latest WordPress files
     ansible.builtin.get_url:
@@ -50,15 +50,10 @@
     - name: Change ownership and permissions of all files in a folder with wordpress
       ansible.builtin.file:
         path: /var/www/html
-        owner: www-data
-        group: www-data
+        owner: apache
+        group: apache
         mode: "0755"
         recurse: yes
-
-    - name: Remove file index.html - because "There can be only one!"© 
-      ansible.builtin.file:
-        path: /var/www/html/index.html
-        state: absent
 
     - name: Delete wordpress tmp folder
       ansible.builtin.file:
@@ -73,7 +68,5 @@
 
   - name: Restart Apache service
     ansible.builtin.service:
-      name: apache2
+      name: httpd
       state: restarted
-
-
