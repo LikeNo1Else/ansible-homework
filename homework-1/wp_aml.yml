@@ -22,18 +22,18 @@
       state: latest
     ignore_errors: yes
 
-  - name: Download latest WordPress files
+  - name: Download latest WordPress file
     ansible.builtin.get_url:
       url: "https://wordpress.org/latest.tar.gz"
       dest: "/tmp/latest.tar.gz"
   
-  - name: Extract WordPress from archive and give needed permissions and ownership
+  - name: Extract WordPress from archive to a folder
     ansible.builtin.unarchive:
       src: "/tmp/latest.tar.gz"
       dest: "/tmp/"
       remote_src: yes
 
-  - name: Check if wordpress files already in folder
+  - name: Check if wordpress files are already in a folder
     ansible.builtin.stat:
       path: /var/www/html/wp-settings.php
     register: does_wordpress
@@ -46,7 +46,7 @@
         dest: /var/www/html/
         remote_src: yes
 
-    - name: Change ownership and permissions of all files in a folder with wordpress
+    - name: Change ownerships and permissions for all files in a folder with wordpress
       ansible.builtin.file:
         path: /var/www/html
         owner: apache
@@ -54,7 +54,7 @@
         mode: "0755"
         recurse: yes
 
-    - name: Delete wordpress tmp folder
+    - name: Delete wordpress temporary folder
       ansible.builtin.file:
         path: /tmp/wordpress/
         state: absent
@@ -65,7 +65,7 @@
         state: absent
     when: does_wordpress.stat.exists == false
 
-  - name: Restart Apache service
+  - name: Restart Apache server
     ansible.builtin.service:
       name: httpd
       state: restarted
